@@ -28,4 +28,11 @@ $("#submit-button").on("click", function(){
     	rate: frequency
     };
     database.ref().push(newEmployee);
+
+    $("#train-name").val("");
+    $("#train-destination").val("");
+    $("#train-start").val("");
+    $("#train-frequency").val("");
+
+
 })
