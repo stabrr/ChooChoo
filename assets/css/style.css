@@ -1,6 +1,10 @@
 body{
-	background-color: #77a2c6;
+	background-color: #074d88;
 }
-.jumbotron, .panel-body {
+.panel-body {
+	background-color:  #b5c4d1;
+}
+
+.jumbotron{
 	background-color:  #b5c4d1;
 }
