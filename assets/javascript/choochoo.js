@@ -1,3 +1,5 @@
+//connect to firebase copied from my firebase
+
 var config = {
     apiKey: "AIzaSyC4SakjHfRJSc4N2CLCeVAtfiLMC01618I",
     authDomain: "choochoo-bfcf2.firebaseapp.com",
@@ -9,26 +11,25 @@ var config = {
 firebase.initializeApp(config);
 var database =firebase.database();
 
+//function on submit to read information and add to firebase
 $("#submit-button").on("click", function(){
 	event.preventDefault();
-    console.log("i hit submit!");
-    var train=$("#train-name").val().trim();
-    console.log(train);
-    var destination=$("#train-destination").val().trim();
-    console.log(destination);
-    var start=$("#train-start").val().trim();
-    console.log(start);
+	//input values
+    var train=$("#train-name").val().trim();    
+    var destination=$("#train-destination").val().trim();    
+    var start=$("#train-start").val().trim();    
     var frequency=$("#train-frequency").val().trim();
-    console.log(frequency);
-
+   
+    //create an object so I can push to firebase
     var newEmployee = {
     	name: train,
     	role: destination,
     	start: start,
     	rate: frequency
     };
+    //push object into firebase
     database.ref().push(newEmployee);
-
+    //clear the input fields
     $("#train-name").val("");
     $("#train-destination").val("");
     $("#train-start").val("");
@@ -36,62 +37,35 @@ $("#submit-button").on("click", function(){
 
 
 })
-
+//function to train information in firebase into a table
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
-  console.log(childSnapshot.val());
+  
 
-  // Store everything into a variable.
+  // Store everything in firebase into a variable.
   var train = childSnapshot.val().name;
   var destination = childSnapshot.val().role;
   var start = childSnapshot.val().start;
   var  frequency= childSnapshot.val().rate;
-  var minutesAway = "10"
+  
 
-  // Employee Info
-  console.log(train);
-  console.log(destination);
-  console.log(start);
-  console.log(frequency);
-//
-var tFrequency = frequency;
-
-    // Time is 3:30 AM
+	// frequncy of train
+	var tFrequency = frequency;
+    // start time
     var firstTime = start;
-
     // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
-    console.log("ft"+moment(firstTimeConverted).format("hh:mm"));
-
     // Current Time
     var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-
-
-    console.log("ft"+moment(firstTimeConverted).format("hh:mm"));
-
     // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
-
     // Time apart (remainder)
     var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
-
     // Minute Until Train
     var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
     // Next Train
     var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("hh:mm");
-    console.log("ARRIVAL TIME: " + nextTrain);
-
-//
-
-
-
-
-
+    //Output to table
     $("#employee-table > tbody").append("<tr><td>" + train + "</td><td>" + destination + "</td><td>" +
   frequency + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td></tr>");
 
