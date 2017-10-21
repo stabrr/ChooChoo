@@ -36,3 +36,20 @@ $("#submit-button").on("click", function(){
 
 
 })
+
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
+  console.log(childSnapshot.val());
+
+  // Store everything into a variable.
+  // var train = childSnapshot.val().name;
+  // var destination = childSnapshot.val().role;
+  // var start = childSnapshot.val().start;
+  // var rate = childSnapshot.val().frequency;
+
+  // Employee Info
+  // console.log(train);
+  // console.log(destination);
+  // console.log(start);
+  // console.log(rate);
+ })
